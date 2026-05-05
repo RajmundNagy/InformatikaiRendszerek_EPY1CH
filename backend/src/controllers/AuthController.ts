@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 
-const JWT_SECRET = "titkos_kulcs_a_beadandohoz_2024";
+const JWT_SECRET = "titkos_kulcs_a_beadandohoz_2026";
 
 export class AuthController {
 
