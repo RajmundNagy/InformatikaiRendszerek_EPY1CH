@@ -1,0 +1,78 @@
+<div class="min-h-screen bg-gray-50 p-8">
+    <div class="max-w-6xl mx-auto">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Elérhető Járművek</h1>
+            <p class="text-gray-600">Válassza ki az Önnek megfelelő autót a bérléshez!</p>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl shadow-sm mb-6 flex flex-wrap gap-4 items-center justify-between">
+            <div class="flex space-x-4 w-full md:w-auto flex-grow">
+                <input type="text" [(ngModel)]="searchCategory" placeholder="Kategória (pl. 4 kerekű)"
+                    class="border border-gray-300 rounded-lg px-4 py-2 w-full md:w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <input type="text" [(ngModel)]="searchLicensePlate" placeholder="Rendszám"
+                    class="border border-gray-300 rounded-lg px-4 py-2 w-full md:w-1/2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <button (click)="fetchVehicles()"
+                    class="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition shadow-sm">
+                    Keresés
+                </button>
+            </div>
+            
+            <button *ngIf="isLoggedIn()" (click)="showAddForm = !showAddForm"
+                class="bg-gray-800 text-white px-4 py-2 rounded-lg font-medium hover:bg-gray-900 transition shadow-sm w-full md:w-auto">
+                {{ showAddForm ? 'Mégse' : '+ Új jármű rögzítése' }}
+            </button>
+        </div>
+
+        <div *ngIf="showAddForm && isLoggedIn()" class="bg-white p-6 rounded-xl shadow-md mb-8 border border-gray-100">
+            <h2 class="text-xl font-bold mb-4 text-gray-800">Új jármű nyilvántartásba vétele</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <input type="text" [(ngModel)]="newVehicle.brand" placeholder="Gyártó / Típus (pl. BMW X5)" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                <select [(ngModel)]="newVehicle.category" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                    <option value="4 kerekű">4 kerekű</option>
+                    <option value="vízi">Vízi jármű</option>
+                </select>
+                <input type="text" [(ngModel)]="newVehicle.licensePlate" placeholder="Rendszám" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                <input type="text" [(ngModel)]="newVehicle.inventoryNumber" placeholder="Készlet sorszám" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                <input type="text" [(ngModel)]="newVehicle.chassisNumber" placeholder="Alvázszám" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                <input type="date" [(ngModel)]="newVehicle.purchaseDate" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                <input type="number" [(ngModel)]="newVehicle.dailyRate" placeholder="Napi díj (Ft)" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                <input type="number" [(ngModel)]="newVehicle.kmRate" placeholder="KM díj (Ft/km)" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="flex justify-end">
+                <button (click)="addVehicle()" class="bg-green-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-green-700 transition">Mentés az adatbázisba</button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div *ngFor="let car of vehicles"
+                class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition flex flex-col justify-between">
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <div>
+                            <h3 class="text-xl font-bold text-gray-900">{{car.brand}}</h3>
+                            <p class="text-gray-500">{{car.category}} • {{car.licensePlate}}</p>
+                            <p class="text-sm text-gray-400 mt-1">KM díj: {{car.kmRate}} Ft/km</p>
+                        </div>
+                        <span *ngIf="car.status === 'szabad'"
+                            class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded">Szabad</span>
+                        <span *ngIf="car.status === 'kikölcsönzött'"
+                            class="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded">Kikölcsönzött</span>
+                    </div>
+
+                    <div class="mt-4 flex items-center justify-between">
+                        <span class="text-2xl font-bold text-blue-600">{{car.dailyRate}} Ft<span
+                                class="text-sm text-gray-400 font-normal">/nap</span></span>
+                        <button *ngIf="car.status === 'szabad'" (click)="rentVehicle(car.id)"
+                            class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition">
+                            Bérlés
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="vehicles.length === 0" class="text-center py-20 text-gray-500">
+            Jelenleg nincs a keresésnek megfelelő elérhető jármű.
+        </div>
+    </div>
+</div>

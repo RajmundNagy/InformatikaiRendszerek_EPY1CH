@@ -1,0 +1,27 @@
+<nav *ngIf="isLoggedIn()" class="bg-blue-600 text-white shadow-lg mb-6">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex items-center space-x-8">
+        <span class="text-2xl font-bold tracking-tight">🚗 Autókölcsönző</span>
+        <div class="hidden md:flex space-x-4">
+          <a routerLink="/vehicles" routerLinkActive="bg-blue-700"
+            class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-500 transition">Járművek</a>
+          <a routerLink="/customers" routerLinkActive="bg-blue-700"
+            class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-500 transition">Ügyfelek</a>
+          <a routerLink="/my-rentals" routerLinkActive="bg-blue-700"
+            class="px-3 py-2 rounded-md text-sm font-medium hover:bg-blue-500 transition">Bérlések</a>
+        </div>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button (click)="logout()"
+          class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm">
+          Kijelentkezés
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="container mx-auto px-4">
+  <router-outlet></router-outlet>
+</div>

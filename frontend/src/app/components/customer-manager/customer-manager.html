@@ -1,0 +1,45 @@
+<div class="min-h-screen bg-gray-50 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Ügyfelek kezelése</h1>
+        
+        <div class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <h2 class="text-xl font-bold mb-4 text-gray-800">Új ügyfél rögzítése</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <input type="text" [(ngModel)]="newCustomer.name" placeholder="Teljes név" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                <input type="text" [(ngModel)]="newCustomer.idNumber" placeholder="Igazolványszám" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                <input type="text" [(ngModel)]="newCustomer.address" placeholder="Cím (Irányítószám, Város, Utca, Házszám)" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 md:col-span-2">
+                <input type="text" [(ngModel)]="newCustomer.phone" placeholder="Telefonszám" class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 md:col-span-2">
+            </div>
+            <div class="flex justify-end">
+                <button (click)="createCustomer()" class="bg-green-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-green-700 transition">Ügyfél Mentése</button>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-md">
+            <h2 class="text-xl font-bold mb-4 text-gray-800">Rögzített Ügyfelek listája</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-600 text-sm uppercase">
+                            <th class="p-3 border-b">ID</th>
+                            <th class="p-3 border-b">Név</th>
+                            <th class="p-3 border-b">Igazolványszám</th>
+                            <th class="p-3 border-b">Telefon</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let customer of customers" class="hover:bg-gray-50 border-b">
+                            <td class="p-3 text-blue-600 font-bold">#{{customer.id}}</td>
+                            <td class="p-3">{{customer.name}}</td>
+                            <td class="p-3">{{customer.idNumber}}</td>
+                            <td class="p-3">{{customer.phone}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="customers.length === 0" class="text-center py-8 text-gray-500">
+                    Nincs még ügyfél rögzítve.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
