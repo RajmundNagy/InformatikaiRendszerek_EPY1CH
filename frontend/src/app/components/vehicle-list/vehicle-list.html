@@ -62,10 +62,16 @@
                     <div class="mt-4 flex items-center justify-between">
                         <span class="text-2xl font-bold text-blue-600">{{car.dailyRate}} Ft<span
                                 class="text-sm text-gray-400 font-normal">/nap</span></span>
-                        <button *ngIf="car.status === 'szabad'" (click)="rentVehicle(car.id)"
-                            class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition">
-                            Bérlés
-                        </button>
+                        <div class="flex space-x-2">
+                            <button *ngIf="isLoggedIn()" (click)="deleteVehicle(car.id)"
+                                class="bg-red-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-red-600 transition">
+                                Törlés
+                            </button>
+                            <button *ngIf="car.status === 'szabad'" (click)="rentVehicle(car.id)"
+                                class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition">
+                                Bérlés
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
