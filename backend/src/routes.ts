@@ -17,6 +17,7 @@ router.get("/rentals", RentalController.getAll);
 
 
 router.post("/vehicles", verifyToken, VehicleController.create);
+router.delete("/vehicles/:id", verifyToken, VehicleController.delete);
 router.post("/customers", verifyToken, CustomerController.create);
 
 router.post("/rentals/start", verifyToken, RentalController.startRental);
