@@ -97,4 +97,21 @@ export class VehicleListComponent implements OnInit {
       error: (err) => alert('Hiba történt: ' + (err.error?.message || 'Nem sikerült hozzáadni.'))
     });
   }
+
+  deleteVehicle(vehicleId: number) {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    if (!confirm('Biztosan törölni szeretnéd ezt a járművet?')) return;
+
+    this.http.delete(`http://localhost:3000/api/vehicles/${vehicleId}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    }).subscribe({
+      next: () => {
+        alert('Jármű sikeresen törölve!');
+        this.fetchVehicles();
+      },
+      error: (err) => alert('Hiba történt a törlés során: ' + (err.error?.message || 'Nem sikerült a törlés.'))
+    });
+  }
 }
